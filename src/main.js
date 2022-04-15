@@ -1,10 +1,15 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-
 const pty = require("node-pty");
 const os = require("os");
-var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
+// Enable live reload for Electron too
+require('electron-reload')(__dirname, {
+  // Note that the path to electron may vary according to the main file
+  electron: require("../node_modules/electron")
+});
+
+var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -24,7 +29,6 @@ const createWindow = () => {
   });
 
   //ipcing
-
   var ptyProcess = pty.spawn(shell, [], {
     name: "xterm-color",
     cols: 80,
