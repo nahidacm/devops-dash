@@ -35,8 +35,6 @@ const createWindow = () => {
 
   ptyProcess.on('data', function(data) {
       mainWindow.webContents.send("terminal.incomingData", data);
-      // ptyProcess.write('ls\r');
-      // console.log("Data sent");
       process.stdout.write(data);
   });
   ipcMain.on("terminal.keystroke", (event, key) => {

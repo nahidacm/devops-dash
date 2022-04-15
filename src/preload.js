@@ -4,9 +4,9 @@ const os = require('os');
 const { exec} = require("child_process");
 
 contextBridge.exposeInMainWorld('electron_api', {
-    runCommand: (title) => ipcRenderer.send('run-command', title),
     os: os,
     exec: exec,
-    ipcRenderer: ipcRenderer,
+    runCommand: (title) => ipcRenderer.send('run-command', title),
+    terminalKeyStrock: (e) => ipcRenderer.send("terminal.keystroke", e),
     handleIncomingData: (callback) => ipcRenderer.on("terminal.incomingData", callback)
 })
