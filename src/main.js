@@ -1,6 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
+const pty = require("node-pty");
+const os = require("os");
+var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
+
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -18,6 +23,23 @@ const createWindow = () => {
     }
   });
 
+  //ipcing
+
+  var ptyProcess = pty.spawn(shell, [], {
+    name: "xterm-color",
+    cols: 80,
+    rows: 30,
+    cwd: process.env.HOME,
+    env: process.env
+  });
+
+  ptyProcess.on('data', function(data) {
+      mainWindow.webContents.send("terminal.incomingData", data);
+      console.log("Data sent");
+  });
+  ipcMain.on("terminal.keystroke", (event, key) => {
+      ptyProcess.write(key);
+  });
   // ipcMain.on('run-command', (event, command) => {
   //   const webContents = event.sender
   //   // const win = BrowserWindow.fromWebContents(webContents)
