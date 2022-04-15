@@ -4,12 +4,16 @@
     <meta charset="UTF-8" />
     <title>Batch Command</title>
     <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="../node_modules/xterm/css/xterm.css" />
+      <script src="../node_modules/xterm/lib/xterm.js"></script>
   </head>
   <body>
     <label for="command">Command to run</label>
     <input type="text" id="command" />
     <button id="run_btn">Execute</button>
 
+    <div id="terminal"></div>
+    
     <script src="./renderer.js"></script>
   </body>
 </html>
