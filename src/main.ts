@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+import { app, BrowserWindow, ipcMain } from 'electron';
+// const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const pty = require("node-pty");
 const os = require("os");
@@ -37,7 +38,7 @@ const createWindow = () => {
     env: process.env
   });
 
-  ptyProcess.on('data', function(data) {
+  ptyProcess.on('data', function(data: any) {
       mainWindow.webContents.send("terminal.incomingData", data);
       process.stdout.write(data);
   });
